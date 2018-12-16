@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Sesión</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script defer src="/__/firebase/5.7.0/firebase-app.js"></script>
+    <script defer src="/__/firebase/5.7.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/5.7.0/firebase-database.js"></script>
+    <script defer src="/__/firebase/init.js"></script>
+    <script type="module" src="js/cmp/form-navegacion.js"></script>
+    <link rel="stylesheet" href="css/estilos.css">
+  </head>
+  <body>
+    <form name="vista">
+      <form-navegacion></form-navegacion>
+      <header>
+        <h1>Sesión</h1>
+        <p><input type="button" name="terminaSesion" accesskey="I" value="Terminar Sesión"></p>
+      </header>
+      <main role="main">
+        <p>
+          <label>
+            Cue
+            <output name="cue">Cargando sesión…</output>
+          </label>
+        </p>
+        <p>
+          <label>
+            Nombre
+            <output name="nombre"></output>
+          </label>
+        </p>
+        <p><img id="icono" alt="Imagen"></p>
+      </main>
+    </form>
+    <script type="module" src="js/ctrlSesion.js"></script>
+  </body>
+</html>
