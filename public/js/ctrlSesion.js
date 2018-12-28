@@ -1,4 +1,4 @@
-import { query, execute, muestraError } from "./lib/util.js";
+import { hayUsuario, muestraError } from "./lib/util.js";
 const vista = document.vista;
 const icono = document.getElementById("icono");
 firebase.auth().onAuthStateChanged(
@@ -9,7 +9,6 @@ firebase.auth().onAuthStateChanged(
       icono.src = user.photoURL;
       vista.terminaSesion.addEventListener("click", terminaSesion);
     } else {
-      alert("No has iniciado sesión.");
       document.location = "index.html";
     }
   },
@@ -17,7 +16,6 @@ firebase.auth().onAuthStateChanged(
 async function terminaSesion() {
   try {
     await firebase.auth().signOut();
-    document.location = "index.html";
   } catch (e) {
     muestraError(e);
   }

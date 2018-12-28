@@ -1,0 +1,20 @@
+{
+  "USUARIO" : {
+    "id1" : {
+      "ROL_IDS" : {
+        "Administrador" : true,
+        "Cliente" : true
+      },
+      "USU_CUE" : "gilpgnet@gmail.com",
+      "USU_UPPER_CUE" : "GILPGNET@GMAIL.COM"
+    },
+    "id2" : {
+      "ROL_IDS" : {
+        "Cliente" : true,
+        "Invitado" : true
+      },
+      "USU_CUE" : "gilpgf@gmail.com",
+      "USU_UPPER_CUE" : "GILPGF@GMAIL.COM"
+    }
+  }
+}

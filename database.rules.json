@@ -2,7 +2,7 @@
   "rules": {
     ".read": "auth != null",
     ".write": "auth != null",
-    "Usuario": {
+    "USUARIO": {
       ".indexOn": "USU_UPPER_CUE"
     }
   }

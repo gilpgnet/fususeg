@@ -7,28 +7,26 @@ export function hayUsuario(user) {
 }
 export function protege(roles) {
   return new Promise(resolve => {
-    if (roles && roles.length > 0) {
-      firebase.auth().onAuthStateChanged(
-        user => {
-          if (hayUsuario(user)) {
-            firebase.database().ref("USUARIO")
-              .orderByChild("USU_UPPER_CUE").equalTo(USU_UPPER_CUE).once("value",
-                dataSnapshot => {
-                  if (dataSnapshot.forEach(ds => roles.filter(r => ds.val().ROL_IDS[r]).length > 0)) {
-                    resolve();
-                  } else {
-                    usuarioNoAutorizado();
-                  }
-                },
-                errorDeVerificacion);
-          } else {
-            usuarioNoAutorizado();
-          }
-        },
-        errorDeVerificacion);
-    } else {
-      resolve();
-    }
+    firebase.auth().onAuthStateChanged(
+      user => {
+        if (!roles && roles.length === 0) {
+          resolve();
+        } else if (hayUsuario(user)) {
+          firebase.database().ref("USUARIO")
+            .orderByChild("USU_UPPER_CUE").equalTo(user.email.toUpperCase()).once("value",
+              dataSnapshot => {
+                if (dataSnapshot.forEach(ds => roles.filter(r => ds.val().ROL_IDS[r]).length > 0)) {
+                  resolve();
+                } else {
+                  usuarioNoAutorizado();
+                }
+              },
+              errorDeVerificacion);
+        } else {
+          usuarioNoAutorizado();
+        }
+      },
+      errorDeVerificacion);
   });
 }
 function errorDeVerificacion(e) {

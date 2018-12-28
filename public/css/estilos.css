@@ -40,7 +40,8 @@ header * {
 
 header a,
 header [type="button"],
-header [type="submit"] {
+header [type="submit"],
+form-navegacion [type="button"] {
   border: none;
   padding: 0.5em 1em;
   text-transform: uppercase;

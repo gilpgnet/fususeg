@@ -1,12 +1,16 @@
-import { hayUsuario, muestraError } from "../lib/util";
+import { hayUsuario, muestraError } from "../lib/util.js";
 customElements.define("form-navegacion", class extends HTMLElement {
+  constructor() {
+    super();
+    this.iniciaSesion = this.iniciaSesion.bind(this);
+  }
   connectedCallback() {
     this.textContent = "Cargando información de sesión…";
     firebase.auth().onAuthStateChanged(
       user => {
         if (hayUsuario(user)) {
           firebase.database().ref("USUARIO")
-            .orderByChild("USU_UPPER_CUE").equalTo(USU_UPPER_CUE).once("value",
+            .orderByChild("USU_UPPER_CUE").equalTo(user.email.toUpperCase()).once("value",
               dataSnapshot => {
                 try {
                   const encontrado = dataSnapshot.forEach(ds => {
@@ -14,16 +18,17 @@ customElements.define("form-navegacion", class extends HTMLElement {
                     const cue = usuario.USU_CUE;
                     const roles = usuario.ROL_IDS;
                     let contenido = '<a href="index.html">Inicio</a>';
-                    if (roles.indexOf("Cliente") >= 0) {
+                    if (roles["Cliente"]) {
                       contenido += ' <a href="clientes.html">Clientes</a>';
                     }
-                    if (roles.indexOf("Invitado") >= 0) {
+                    if (roles["Invitado"]) {
                       contenido += ' <a href="invitados.html">Invitados</a>';
                     }
                     if (cue) {
                       contenido += ' <a href="sesion.html">Sesión</a>';
                     } else {
-                      contenido += ' <a href="inicia.html">Iniciar Sesión</a>';
+                      contenido += ` <input type="button" value="Iniciar Sesión"
+                                      onclick="this.parentNode.iniciaSesion();">`;
                     }
                     this.innerHTML = contenido;
                     return true;
@@ -37,8 +42,23 @@ customElements.define("form-navegacion", class extends HTMLElement {
                 }
               },
               muestraError);
+        } else {
+          this.innerHTML =
+            `<a href="index.html">Inicio</a>
+            <input type="button" value="Iniciar Sesión"
+                  onclick="this.parentNode.iniciaSesion();">`;
         }
       },
       muestraError);
+  }
+  async iniciaSesion(ev) {
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: "select_account" });
+      await firebase.auth().signInWithRedirect(provider)
+      document.location = "index.html";
+    } catch (e) {
+      muestraError(e);
+    }
   }
 });
