@@ -13,7 +13,7 @@ customElements.define("form-navegacion", class extends HTMLElement {
             .orderByChild("USU_UPPER_CUE").equalTo(user.email.toUpperCase()).once("value",
               dataSnapshot => {
                 try {
-                  const encontrado = dataSnapshot.forEach(ds => {
+                  dataSnapshot.forEach(ds => {
                     const usuario = ds.val();
                     const cue = usuario.USU_CUE;
                     const roles = usuario.ROL_IDS;
@@ -33,10 +33,6 @@ customElements.define("form-navegacion", class extends HTMLElement {
                     this.innerHTML = contenido;
                     return true;
                   });
-                  if (!encontrado) {
-                    alert("Usuario no autorizado.");
-                    document.location = "index.html";
-                  }
                 } catch (e) {
                   muestraError(e);
                 }
