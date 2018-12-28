@@ -13,26 +13,21 @@ customElements.define("form-navegacion", class extends HTMLElement {
             .orderByChild("USU_UPPER_CUE").equalTo(user.email.toUpperCase()).once("value",
               dataSnapshot => {
                 try {
+                  let contenido = '<a href="index.html">Inicio</a>';
                   dataSnapshot.forEach(ds => {
                     const usuario = ds.val();
                     const cue = usuario.USU_CUE;
                     const roles = usuario.ROL_IDS;
-                    let contenido = '<a href="index.html">Inicio</a>';
                     if (roles["Cliente"]) {
                       contenido += ' <a href="clientes.html">Clientes</a>';
                     }
                     if (roles["Invitado"]) {
                       contenido += ' <a href="invitados.html">Invitados</a>';
                     }
-                    if (cue) {
-                      contenido += ' <a href="sesion.html">Sesión</a>';
-                    } else {
-                      contenido += ` <input type="button" value="Iniciar Sesión"
-                                      onclick="this.parentNode.iniciaSesion();">`;
-                    }
-                    this.innerHTML = contenido;
                     return true;
                   });
+                  contenido += ' <a href="sesion.html">Sesión</a>';
+                  this.innerHTML = contenido;
                 } catch (e) {
                   muestraError(e);
                 }
@@ -47,7 +42,7 @@ customElements.define("form-navegacion", class extends HTMLElement {
       },
       muestraError);
   }
-  async iniciaSesion(ev) {
+  async iniciaSesion() {
     try {
       const provider = new firebase.auth.GoogleAuthProvider();
       provider.setCustomParameters({ prompt: "select_account" });
